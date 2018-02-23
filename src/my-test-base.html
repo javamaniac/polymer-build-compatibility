@@ -1,0 +1,104 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="my-test-base">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.5em;
+      }
+
+      .WAIT {
+        color: gray;
+      }
+
+      .true {
+        color: green;
+      }
+
+      .false {
+        color: red;
+      }
+    </style>
+      <h1>[[testName]]</h1>
+      <!-- <h1 class$="[[_isSupported(support)]]">[[testName]] : [[_isSupported(support)]]</h1> -->
+
+      <dom-repeat items="[[res]]">
+        <template>
+          <div class$="[[_isSupported(item.support)]]">
+            [[item.nom]] : [[item.support]]
+          </div>
+        </template>
+      </dom-repeat>
+    </div>
+  </template>
+
+  <script>
+    class MyTestBase extends Polymer.Element {
+      static get is() { return 'my-test-base'; }
+
+      static get properties() {
+        return {
+          res: {
+            type: Array,
+            value: () => []
+          },
+          support: {
+            type: Boolean,
+            value: null
+          },
+          testName: {
+            type: String,
+            value: 'test name'
+          }
+        };
+      }
+
+      connectedCallback () {
+        super.connectedCallback()
+        this.test()
+      }
+
+      test() {
+      }
+
+      testSimple(nom, expression) {
+        this.push('res', {nom: nom, support: expression} )
+      }
+
+      /**
+       * @param {String} nom
+       * @param {Function} testFn
+       */
+      t (nom, testFn) {
+        try {
+          this.testSimple (nom, testFn())
+        } catch (e) {
+          console.log('Problème avec ', nom, e)
+          this.push('res', {nom: nom, support: false} )
+        }
+      }
+
+
+
+      _isSupported(support) {
+        switch (support) {
+          case true:
+            return 'true'
+          case false:
+            return 'false'
+          default:
+            return 'WAIT'
+        }
+      }
+    }
+
+    window.customElements.define(MyTestBase.is, MyTestBase);
+  </script>
+</dom-module>

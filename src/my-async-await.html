@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="my-test-base.html">
+
+<dom-module id="my-async-await">
+  <script>
+    class MyAsyncAwait extends MyTestBase {
+      static get is() { return 'my-async-await'; }
+
+      static get properties() {
+        return {
+          testName: {
+            type: String,
+            value: 'Async / await'
+          },
+        };
+      }
+
+      test() {
+        const fnAsyncMessage = (message) => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve(message)
+            }, 100)
+          })
+        }
+
+        try {
+          (async () => {
+            try {
+              const message = await fnAsyncMessage('Message async')
+              if (message === 'Message async') {
+                this.support = true
+                this.push('res', {nom: 'async / await', support: true} )
+              }
+            } catch (e) {
+              console.log(e)
+              this.push('res', {nom: 'async / await', support: false} )
+            }
+          })()
+        } catch (e) {
+          console.log(e)
+          this.support = false
+          this.push('res', {nom: 'async / await', support: false} )
+        }
+      }
+    }
+
+    window.customElements.define(MyAsyncAwait.is, MyAsyncAwait);
+  </script>
+</dom-module>

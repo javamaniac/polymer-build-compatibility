@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <style>
+      .groupe {
+        display: flex;
+        height: 100%;
+      }
+      .groupe > div {
+        flex: 1;
+      }
+      iframe {
+        height: calc(100% - 200px);
+        width: -webkit-fill-available;
+        width: -moz-available;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1></h1>
+    <div class="groupe">
+      <div>
+        <h2>Es6 source</h2>
+        <iframe src="/"></iframe>
+      </div>
+      <div>
+        <h2>Es5-bundled</h2>
+        <iframe src="/build/es5-bundled/"></iframe>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.querySelector('h1').innerText=navigator.userAgent
+</script>
+

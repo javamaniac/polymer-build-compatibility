@@ -1,0 +1,74 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="my-test-base.html">
+
+<dom-module id="my-es6">
+  <script>
+    class MyEs6 extends MyTestBase {
+      static get is() { return 'my-es6'; }
+
+      static get properties() {
+        return {
+          testName: {
+            type: String,
+            value: 'ES6'
+          },
+        };
+      }
+
+      test () {
+        this.t('constant', () => {
+          const PI = 3.141593
+          return (PI > 3.0)
+        })
+
+        this.t('Destructuring array', () => {
+          var list = [ 1, 2, 3 ]
+          var [ a, , b ] = list
+          ;[ b, a ] = [ a, b ]
+          return (a === 3 && b === 1)
+        })
+
+        this.t('Destructuring object', () => {
+          const object = {
+            b: true,
+            n: 14,
+            o: {
+              nom: 'John'
+            }
+          }
+          var { n, b, o } = object
+          return (n === 14 && b === true && o.nom === 'John')
+        })
+
+
+
+        // const fnAsyncMessage = (message) => {
+        //   return new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //       resolve(message)
+        //     }, 100)
+        //   })
+        // }
+
+        // try {
+        //   (async () => {
+        //     try {
+        //       const message = await fnAsyncMessage('Message async')
+        //       if (message === 'Message async') {
+        //         this.support = true
+        //       }
+        //     } catch (e) {
+        //       console.log(e)
+        //       this.support = false
+        //     }
+        //   })()
+        // } catch (e) {
+        //   console.log(e)
+        //   this.support = false
+        // }
+      }
+    }
+
+    window.customElements.define(MyEs6.is, MyEs6);
+  </script>
+</dom-module>
